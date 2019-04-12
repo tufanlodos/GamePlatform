@@ -1,0 +1,1 @@
+﻿var gameDetailsModule = angular.module("gameDetailsModule", []);

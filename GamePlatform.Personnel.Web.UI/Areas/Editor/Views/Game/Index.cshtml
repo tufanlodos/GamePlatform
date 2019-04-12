@@ -1,0 +1,63 @@
+﻿@model List<GamePlatform.Entities.Entity.Game>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Oyunlar</h2>
+
+@if (Model.Count > 0) {
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>İsmi</th>
+                <th>Fiyat</th>
+                <th>Güvenli İçerik</th>
+                <th>Çıkış Tarihi</th>
+                <th>Yapımcı</th>
+                <th>Kategoriler</th>
+                <th>İndirim Oranı</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var game in Model) {
+                <tr>
+                    <td>@game.GameName</td>
+                    <td><a href="/editor/game/makediscount/@game.Id">@game.Price</a></td>
+                    <td>
+                        @if (game.IsSafeContent) {
+                            <text>Evet</text>
+                        } else {
+                            <text>Hayır</text>
+                        }
+                    </td>
+                    <td>
+                        @game.PublishDate.Value.ToShortDateString()
+                    </td>
+                    <td>
+                        @game.Developer.CompanyName
+                    </td>
+                    <td>
+                        @foreach (var gameCategory in game.GameCategories) {
+                            <span style="color:white;background-color: #8ed1ff;padding:2%;font-size:10px;margin:1%;user-select:none;">
+                                @gameCategory.Category.CategoryName
+                            </span>
+                        }
+                    </td>
+                    <td>
+                        @if (game.DiscountPrice == null) {
+                            <text>İndirim Yok</text>
+                        } else {
+                            <text>%</text>@(100 - (game.DiscountPrice * 100 / game.Price))
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+} else {
+    <p class="text-danger">Ne yazık ki gösterilecek oyun yok.</p>
+}
+
+<hr />
+<a href="/editor/game/add" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Yeni Oyun Ekle</a>

@@ -1,0 +1,1 @@
+﻿var gameListModule = angular.module("gameListModule", ["authServiceModule"]);
