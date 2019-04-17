@@ -1,0 +1,44 @@
+﻿@model List<Entities.Entity.SupportTicket>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="page-header">Destek Birimi</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Kategori
+            </th>
+            <th>Çözüm Aşaması</th>
+            <th>Açan</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr style="color:@item.SupportTicketCategory.ColorHex">
+                <td>@item.SupportTicketCategory.CategoryName</td>
+                <td>
+                    @if (item.IsSolved == null)
+                    {
+                        <span class="text-danger">Bakılmadı</span>
+                    }
+                    else if (item.IsSolved == true)
+                    {
+                        <span class="text-success">Halledildi</span>
+                    }
+                    else
+                    {
+                        <span class="text-warning">Beklemede</span>
+                    }
+                </td>
+                <td>@item.IssuedUser.UserName</td>
+                <td><a href="/support/ticket/Details?ticketId=@item.Id" class="btn btn-default">Detaylara Git</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
